@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "bisque"
+version = "0.1.0"
+description = "Backend for housing service in Chromo project"
+authors = ["Vladimir Carpa <oswalth2@gmail.com>"]
+packages = [
+  {include = "api", from = "./src/"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1.2"
+environs = "^9.5.0"
+gunicorn = "^20.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

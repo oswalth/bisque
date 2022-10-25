@@ -1,0 +1,27 @@
+version: "3.5"
+
+services:
+  db:
+    image: "postgres:14.4"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+    command: "poetry run gunicorn -c /app/src/gunicorn_conf.py"
+    volumes:
+      - "./src:/app/src"
+    ports:
+      - "9050:9050"
+    depends_on:
+      - db
+    env_file:
+      - ".env"
+    environment:
+      RDS_HOSTNAME: "db"
+    entrypoint: [ "/app/entrypoint.sh" ]
