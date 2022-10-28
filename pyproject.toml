@@ -5,6 +5,7 @@ description = "Backend for housing service in Chromo project"
 authors = ["Vladimir Carpa <oswalth2@gmail.com>"]
 packages = [
   {include = "api", from = "./src/"},
+  {include = "data_access", from = "./src/"},
 ]
 
 [tool.poetry.dependencies]
@@ -12,7 +13,15 @@ python = "^3.10"
 django = "^4.1.2"
 environs = "^9.5.0"
 gunicorn = "^20.1.0"
+PyYAML = "^6.0"
+djangorestframework = "^3.14.0"
+pika = "^1.3.1"
+dependency-injector = "^4.40.0"
+django-autoslug = "^1.9.8"
 
+
+[tool.poetry.group.dev.dependencies]
+django-debug-toolbar = "^3.7.0"
 
 [build-system]
 requires = ["poetry-core"]

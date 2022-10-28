@@ -1,0 +1,99 @@
+- model: flats.residential
+  pk: &residential 1b434068-2401-4d0c-9820-1b6dd7af814b
+  x-created-updated-fields: &created_updated_fields
+    created_at: "2022-10-26T12:20:00+03:00"
+    updated_at: "2022-10-26T12:20:00+03:00"
+  fields:
+    <<: *created_updated_fields
+    name: Liviu Deleanu
+    slug: liviu-deleanu
+
+- model: flats.address
+  pk: &address_0 fc9d642e-6c52-4838-837f-11357153179d
+  fields:
+    <<: *created_updated_fields
+    region: Chisinau
+    city: Chisinau
+    district: Buiucani
+    street: Liviu Deleanu
+    street_number: 10/1
+    latitude: 47.0473
+    longitude: 28.768921
+
+- model: flats.building
+  pk: &building_0 8d91b465-3576-4448-8756-846c7661d6ab
+  fields:
+    <<: *created_updated_fields
+    residential: *residential
+    address: *address_0
+    build_year: 2021
+    total_floors: 7
+
+- model: flats.flat
+  pk: 3
+  fields:
+    <<: *created_updated_fields
+    building: *building_0
+    rooms: 2
+    total_area: 55.3
+    living_area: 42.1
+    kitchen_area: 12.8
+    floor: 4
+    flat_number: 75
+
+- model: flats.flat
+  pk: 4
+  fields:
+    <<: *created_updated_fields
+    building: *building_0
+    rooms: 1
+    total_area: 42
+    living_area: 31.7
+    kitchen_area: 10.3
+    floor: 2
+    flat_number: 58
+
+- model: flats.address
+  pk: &address_1 7e63ad8d-b88b-4723-af5f-39e063d201a5
+  fields:
+    <<: *created_updated_fields
+    region: Chisinau
+    city: Chisinau
+    district: Buiucani
+    street: Liviu Deleanu
+    street_number: 10/9
+    latitude: 47.046713
+    longitude: 28.770326
+
+- model: flats.building
+  pk: &building_1 0896fbb4-6624-4f02-9265-d2b689aad99e
+  fields:
+    <<: *created_updated_fields
+    residential: *residential
+    address: *address_1
+    build_year: 2021
+    total_floors: 5
+
+- model: flats.flat
+  pk: 5
+  fields:
+    <<: *created_updated_fields
+    building: *building_1
+    rooms: 5
+    total_area: 93.3
+    living_area: 72.1
+    kitchen_area: 20.8
+    floor: 4
+    flat_number: 192
+
+- model: flats.flat
+  pk: 6
+  fields:
+    <<: *created_updated_fields
+    building: *building_1
+    rooms: 4
+    total_area: 75
+    living_area: 64.7
+    kitchen_area: 14.3
+    floor: 2
+    flat_number: 179

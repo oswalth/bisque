@@ -18,11 +18,11 @@ env = Env()
 
 PROJECT_PATH = Path(__file__).resolve().parent
 ROOT_PATH = PROJECT_PATH.parent
+PROJECT_NAME = ROOT_PATH.name
 
 DOTENV_PATH = ROOT_PATH / ".env"
 if DOTENV_PATH.exists():  # pragma: no cover
     env.read_env(path=str(DOTENV_PATH), recurse=False)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -32,13 +32,13 @@ SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
+ENABLE_DEBUG_TOOLBAR = env.bool("ENABLE_DEBUG_TOOLBAR", False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", "*")
 
-
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +47,27 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+FIRST_PARTY_INSTALLED_APPS = [
+    "api.flats.apps.FlatsConfig"
+]
+
+THIRD_PARTY_INSTALLED_APPS = [
+    "rest_framework",
+]
+
+if DEBUG and ENABLE_DEBUG_TOOLBAR:
+    THIRD_PARTY_INSTALLED_APPS.extend(
+        ("debug_toolbar",)
+    )
+
+INSTALLED_APPS = (
+    DJANGO_INSTALLED_APPS
+    + THIRD_PARTY_INSTALLED_APPS
+    + FIRST_PARTY_INSTALLED_APPS
+)
+
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +97,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -88,6 +107,14 @@ DATABASES = {
     }
 }
 
+# Define custom migration path for apps
+MIGRATION_MODULES = {
+    "flats": "data_access.flats.migrations"
+}
+
+FIXTURE_DIRS = [
+    PROJECT_PATH / "data_access" / "flats" / "fixtures",
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -107,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -119,13 +145,41 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = ROOT_PATH / "static"
+STATIC_URL = env.str("STATIC_URL", "/static/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# For Debug toolbar
+INTERNAL_IPS = ["127.0.0.1", "0.0.0.0", "localhost"]
+
+DEBUG_TOOLBAR_PANELS = [
+    # 'debug_toolbar.panels.history.HistoryPanel',
+    # 'debug_toolbar.panels.versions.VersionsPanel',
+    "debug_toolbar.panels.timer.TimerPanel",
+    # 'debug_toolbar.panels.settings.SettingsPanel',
+    # 'debug_toolbar.panels.headers.HeadersPanel',
+    # 'debug_toolbar.panels.request.RequestPanel',
+    "debug_toolbar.panels.sql.SQLPanel",
+    # 'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    # 'debug_toolbar.panels.templates.TemplatesPanel',
+    # 'debug_toolbar.panels.cache.CachePanel',
+    # 'debug_toolbar.panels.signals.SignalsPanel',
+    # 'debug_toolbar.panels.logging.LoggingPanel',
+    # 'debug_toolbar.panels.redirects.RedirectsPanel',
+    "debug_toolbar.panels.profiling.ProfilingPanel",
+]
+
+# Container settings
+# MQ settings
+MQ_EXCHANGE_NAME = env.str("MQ_EXCHANGE_NAME", PROJECT_NAME)
+MQ_USER = env.str("MQ_USER", PROJECT_NAME)
+MQ_PASSWORD = env.str("MQ_PASSWORD", PROJECT_NAME)
+MQ_HOST = env.str("MQ_HOST", "0.0.0.0")
+MQ_PORT = env.int("MQ_PORT", 5672)

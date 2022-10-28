@@ -1,0 +1,88 @@
+- model: flats.residential
+  pk: &residential 6bd6047a-3a65-4913-a514-63a0902f71ac
+  x-created-updated-fields: &created_updated_fields
+    created_at: "2022-10-26T12:20:00+03:00"
+    updated_at: "2022-10-26T12:20:00+03:00"
+  fields:
+    <<: *created_updated_fields
+    name: Buzdugan
+    slug: buzdugan
+
+- model: flats.address
+  pk: &address_0 c2151146-679f-4e04-924f-1d242e40956f
+  fields:
+    <<: *created_updated_fields
+    region: Chisinau
+    city: Chisinau
+    district: Buiucani
+    street: Ion Buzdugan
+    street_number: 1
+    latitude: 47.037821
+    longitude: 28.763186
+
+- model: flats.building
+  pk: &building_0 c624c343-2755-46f5-93c8-4b066d682196
+  fields:
+    <<: *created_updated_fields
+    residential: *residential
+    address: *address_0
+    build_year: 2022
+    total_floors: 12
+
+- model: flats.flat
+  pk: 7
+  fields:
+    <<: *created_updated_fields
+    building: *building_0
+    rooms: 2
+    total_area: 54.3
+    living_area: 41.1
+    kitchen_area: 13.8
+    floor: 4
+    flat_number: 122
+
+- model: flats.flat
+  pk: 8
+  fields:
+    <<: *created_updated_fields
+    building: *building_0
+    rooms: 3
+    total_area: 56.4
+    living_area: 47.7
+    kitchen_area: 12.3
+    floor: 6
+    flat_number: 147
+
+- model: flats.address
+  pk: &address_1 f78455d2-3252-4161-82bc-891f2f32c42c
+  fields:
+    <<: *created_updated_fields
+    region: Chisinau
+    city: Chisinau
+    district: Buiucani
+    street: Ion Buzdugan
+    street_number: 5
+    latitude: 47.037485
+    longitude: 28.76299
+
+- model: flats.building
+  pk: &building_1 544f66a4-68ce-4bba-be92-222e631e338a
+  fields:
+    <<: *created_updated_fields
+    residential: *residential
+    address: *address_1
+    build_year: 2022
+    total_floors: 11
+
+- model: flats.flat
+  pk: 9
+  fields:
+    <<: *created_updated_fields
+    building: *building_1
+    rooms: 4
+    total_area: 85.3
+    living_area: 72.1
+    kitchen_area: 17.8
+    floor: 11
+    flat_number: 254
+
